@@ -3,6 +3,7 @@ import { fetchAllUser } from '../services/UserService';
 import { useEffect, useState } from 'react';
 import ReactPaginate from 'react-paginate';
 
+
 const TableUser = (props) => {
 
     useEffect(() => {
@@ -78,6 +79,7 @@ const TableUser = (props) => {
                 activeClassName="active"
                 renderOnZeroPageCount={null}
             />
+
         </>
     )
 }

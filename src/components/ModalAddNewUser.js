@@ -2,16 +2,45 @@ import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
+import { postCreateUser } from '../services/UserService';
+import { toast } from 'react-toastify';
 
 
 const ModalAddNewUser = (props) => {
-    const { show, handleClose } = props
+    const { show, handleClose, handleUpdateTable } = props
 
     const [name, setName] = useState("")
     const [job, setJob] = useState("")
 
-    const handleSubmit = () => {
-        console.log(">>>check data submit: ", name, job)
+    const handleSubmit = async () => {
+        let res = await postCreateUser(name, job)
+        if (!name) {
+            toast.warn("name is required!")
+            return
+        }
+        if (!job) {
+            toast.warn("job is required!")
+            return
+        }
+        if (!res) {
+            toast.error("something's not right")
+            return
+        }
+        handleUpdateTable({
+            id: res.id,
+            first_name: res.name,
+            last_name: res.job,
+            email: "nothing@nodomain.found"
+        })
+        toast.success("Create user successfully!")
+        resetState()
+        handleClose()
+        console.log(">>>check data res: ", res)
+    }
+
+    const resetState = () => {
+        setName("")
+        setJob("")
     }
     return (
         <>
@@ -46,7 +75,10 @@ const ModalAddNewUser = (props) => {
                     <Button variant="secondary" onClick={handleClose}>
                         Close
                     </Button>
-                    <Button variant="primary" onClick={() => handleSubmit()}>
+                    <Button variant="primary" onClick={() => resetState()}>
+                        Reset form
+                    </Button>
+                    <Button variant="success" onClick={() => handleSubmit()}>
                         Save Changes
                     </Button>
                 </Modal.Footer>

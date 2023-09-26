@@ -2,13 +2,13 @@ import { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
-import { postCreateUser } from '../services/UserService';
+import { putUpdateUser } from '../services/UserService';
 import { toast } from 'react-toastify';
 
 
 const ModalEditUser = (props) => {
-    const { show, handleClose, dataUserEdit } = props
-
+    const { show, handleClose, handleUpdateTable } = props
+    let { dataUserEdit, setUserEdit } = props
     const [name, setName] = useState("")
     const [job, setJob] = useState("")
 
@@ -20,34 +20,37 @@ const ModalEditUser = (props) => {
     }, [dataUserEdit])
 
     const handleSubmit = async () => {
-        // let res = await postCreateUser(name, job)
-        // if (!name) {
-        //     toast.warn("name is required!")
-        //     return
-        // }
-        // if (!job) {
-        //     toast.warn("job is required!")
-        //     return
-        // }
-        // if (!res) {
-        //     toast.error("something's not right")
-        //     return
-        // }
-        // handleUpdateTable({
-        //     id: res.id,
-        //     first_name: res.name,
-        //     last_name: res.job,
-        //     email: "nothing@nodomain.found"
-        // })
-        // toast.success("Create user successfully!")
-        // resetState()
-        // handleClose()
+        if (!name) {
+            toast.warn("First name is required!")
+            return
+        }
+        if (!job) {
+            toast.warn("Last name is required!")
+            return
+        }
+        let res = await putUpdateUser(name, job, dataUserEdit.id)
+        // console.log(">>>check data res: ", res)
+        if (!res) {
+            toast.error("something's not right")
+            return
+        }
+
+        handleUpdateTable({
+            id: dataUserEdit.id,
+            first_name: name,
+            last_name: job,
+            email: dataUserEdit.email
+        }, true)
+        toast.success("Edit user successfully!")
+        resetState()
+        handleClose()
         // console.log(">>>check data res: ", res)
     }
 
     const resetState = () => {
         setName("")
         setJob("")
+        setUserEdit({})
     }
     return (
         <>

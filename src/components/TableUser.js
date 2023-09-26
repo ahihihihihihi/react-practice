@@ -13,7 +13,7 @@ const TableUser = (props) => {
         getUsers(1)
     }, [])
 
-    const [listUsers, setListUsers] = useState([])
+    let [listUsers, setListUsers] = useState([])
     const [totalUsers, setTotalUsers] = useState(0)
     const [totalPages, setTotalPages] = useState(0)
 
@@ -43,12 +43,20 @@ const TableUser = (props) => {
         getUsers(+event.selected + 1)
     }
 
-    const handleUpdateTable = (user) => {
+    const handleUpdateTable = (user, flag = false) => {
+        if (flag) {
+            let userIndex = listUsers.findIndex((item) => item.id === user.id)
+            // console.log(">>>check userIndex: ", userIndex, ">>> user: ", user)
+            listUsers[userIndex] = user
+            setListUsers([...listUsers])
+            return
+            // listUsers.splice(userIndex, 1)
+        }
         setListUsers([user, ...listUsers])
     }
 
     const handleEditUser = (user) => {
-        console.log(">>>check user: ", user)
+        // console.log(">>>check user: ", user)
         setUserEdit(user)
         setIsShowModalEdit(true)
     }
@@ -113,6 +121,8 @@ const TableUser = (props) => {
                 show={isShowModalEdit}
                 handleClose={handleClose}
                 dataUserEdit={userEdit}
+                setUserEdit={setUserEdit}
+                handleUpdateTable={handleUpdateTable}
             />
 
             {/* https://codepen.io/monsieurv/pen/abyJQWQ */}

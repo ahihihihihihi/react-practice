@@ -35,7 +35,7 @@ const ModalAddNewUser = (props) => {
         toast.success("Create user successfully!")
         resetState()
         handleClose()
-        console.log(">>>check data res: ", res)
+        // console.log(">>>check data res: ", res)
     }
 
     const resetState = () => {

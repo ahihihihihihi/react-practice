@@ -20,31 +20,19 @@ const ModalDeleteUser = (props) => {
     }, [dataUserDelete])
 
     const handleSubmit = async () => {
-        if (!name) {
-            toast.warn("First name is required!")
-            return
-        }
-        if (!job) {
-            toast.warn("Last name is required!")
-            return
-        }
         let res = await deleteUpdateUser(dataUserDelete.id)
         // console.log(">>>check data res: ", res)
-        if (!res) {
+        if (res && +res.statusCode != 204) {
             toast.error("something's not right")
             return
         }
 
         handleUpdateTable({
             id: dataUserDelete.id,
-            first_name: name,
-            last_name: job,
-            email: dataUserDelete.email
         }, true)
-        toast.success("Edit user successfully!")
+        toast.success("Delete user successfully!")
         resetState()
         handleClose()
-        // console.log(">>>check data res: ", res)
     }
 
     const resetState = () => {

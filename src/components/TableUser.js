@@ -52,8 +52,15 @@ const TableUser = (props) => {
         if (flag) {
             let userIndex = listUsers.findIndex((item) => item.id === user.id)
             // console.log(">>>check userIndex: ", userIndex, ">>> user: ", user)
-            listUsers[userIndex] = user
+            if (user && user.first_name) {
+                listUsers[userIndex] = user
+                // console.log(">>>abc ", listUsers)
+            } else {
+                listUsers.splice(userIndex, 1)
+                // console.log(">>>def ", listUsers)
+            }
             setListUsers([...listUsers])
+            // console.log(">>>check listUsers: ", listUsers)
             return
             // listUsers.splice(userIndex, 1)
         }

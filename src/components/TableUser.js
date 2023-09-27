@@ -6,7 +6,7 @@ import ModalAddNewUser from './ModalAddNewUser';
 import { Button } from 'react-bootstrap';
 import ModalEditUser from './ModalEditUser';
 import ModalDeleteUser from './ModalDeleteUser';
-import _ from 'lodash';
+import _, { debounce } from 'lodash';
 
 
 const TableUser = (props) => {
@@ -92,6 +92,21 @@ const TableUser = (props) => {
         setListUsers(cloneListUser)
     }
 
+    const handleSearch = debounce(async (event) => {
+        let term = event.target.value
+        // console.log(">>>check term: ", term)
+        let tempListUser = await fetchAllUser(1)
+        // console.log(">>>check tempListUser: ", tempListUser)
+        if (term) {
+            let cloneListUser = _.cloneDeep(tempListUser.data)
+            cloneListUser = cloneListUser.filter(item => item.email.includes(term))
+            // console.log(">>>check cloneListUser: ", cloneListUser)
+            setListUsers(cloneListUser)
+        } else {
+            getUsers(1)
+        }
+    }, 500)
+
     // console.log(">>>check sort: ", sortBy, sortField)
     return (
         <>
@@ -103,6 +118,12 @@ const TableUser = (props) => {
                 >
                     Add new user
                 </button>
+            </div>
+            <div className='col-4 my-3'>
+                <input className='form-control'
+                    placeholder='search user by email...'
+                    onChange={(event) => handleSearch(event)}
+                />
             </div>
 
             <Table striped hover bordered>

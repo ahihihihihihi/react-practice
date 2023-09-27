@@ -95,10 +95,14 @@ const TableUser = (props) => {
     const handleSearch = debounce(async (event) => {
         let term = event.target.value
         // console.log(">>>check term: ", term)
-        let tempListUser = await fetchAllUser(1)
-        // console.log(">>>check tempListUser: ", tempListUser)
+        let tempListUser1 = await fetchAllUser(1)
+        tempListUser1 = tempListUser1.data
+        let tempListUser2 = await fetchAllUser(2)
+        tempListUser2 = tempListUser2.data
+        let tempListUser = [...tempListUser1, ...tempListUser2]
+        console.log(">>>check tempListUser: ", tempListUser)
         if (term) {
-            let cloneListUser = _.cloneDeep(tempListUser.data)
+            let cloneListUser = _.cloneDeep(tempListUser)
             cloneListUser = cloneListUser.filter(item => item.email.includes(term))
             // console.log(">>>check cloneListUser: ", cloneListUser)
             setListUsers(cloneListUser)
@@ -116,7 +120,8 @@ const TableUser = (props) => {
                 <button className='btn btn-success'
                     onClick={() => setIsShowModalAddNew(true)}
                 >
-                    Add new user
+                    <i className="fa-solid fa-circle-plus"></i>&nbsp;
+                    Add new
                 </button>
             </div>
             <div className='col-4 my-3'>

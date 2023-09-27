@@ -5,6 +5,7 @@ import ReactPaginate from 'react-paginate';
 import ModalAddNewUser from './ModalAddNewUser';
 import { Button } from 'react-bootstrap';
 import ModalEditUser from './ModalEditUser';
+import ModalDeleteUser from './ModalDeleteUser';
 
 
 const TableUser = (props) => {
@@ -21,9 +22,13 @@ const TableUser = (props) => {
     const [isShowModalEdit, setIsShowModalEdit] = useState(false)
     const [userEdit, setUserEdit] = useState({})
 
+    const [isShowModalDelete, setIsShowModalDelete] = useState(false)
+    const [userDelete, setUserDelete] = useState({})
+
     const handleClose = () => {
         setIsShowModalAddNew(false)
         setIsShowModalEdit(false)
+        setIsShowModalDelete(false)
     }
 
     const getUsers = async (page) => {
@@ -59,6 +64,12 @@ const TableUser = (props) => {
         // console.log(">>>check user: ", user)
         setUserEdit(user)
         setIsShowModalEdit(true)
+    }
+
+    const handleDeleteUser = (user) => {
+        // console.log(">>>check user: ", user)
+        setUserDelete(user)
+        setIsShowModalDelete(true)
     }
 
     return (
@@ -100,7 +111,7 @@ const TableUser = (props) => {
                                         </Button>
 
                                         <Button variant='danger'
-
+                                            onClick={() => handleDeleteUser(item)}
                                         >Delete
                                         </Button>
                                     </td>
@@ -122,6 +133,14 @@ const TableUser = (props) => {
                 handleClose={handleClose}
                 dataUserEdit={userEdit}
                 setUserEdit={setUserEdit}
+                handleUpdateTable={handleUpdateTable}
+            />
+
+            <ModalDeleteUser
+                show={isShowModalDelete}
+                handleClose={handleClose}
+                dataUserDelete={userDelete}
+                setUserDelete={setUserDelete}
                 handleUpdateTable={handleUpdateTable}
             />
 

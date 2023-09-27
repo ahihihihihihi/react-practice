@@ -14,10 +14,23 @@ code {
 
 .app-container {
 
-  .add-new {
+  .add-new,
+  .sort-header {
     display        : flex;
     align-items    : center;
     justify-content: space-between;
+  }
+
+  .sort-header {
+
+    i {
+      cursor : pointer;
+      padding: 0 2px;
+
+      &:hover {
+        color: red;
+      }
+    }
   }
 
 }

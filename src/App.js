@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import './App.scss';
 import Header from './components/Header';
 import TableUser from './components/TableUser';

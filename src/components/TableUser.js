@@ -7,6 +7,7 @@ import { Button } from 'react-bootstrap';
 import ModalEditUser from './ModalEditUser';
 import ModalDeleteUser from './ModalDeleteUser';
 import _, { debounce } from 'lodash';
+import { CSVLink } from "react-csv";
 
 
 const TableUser = (props) => {
@@ -111,18 +112,40 @@ const TableUser = (props) => {
         }
     }, 500)
 
+    const data = [
+        { firstname: "Ahmed", lastname: "Tomi", email: "ah@smthing.co.com" },
+        { firstname: "Raed", lastname: "Labes", email: "rl@smthing.co.com" },
+        { firstname: "Yezzi", lastname: "Min l3b", email: "ymin@cocococo.com" }
+    ];
+
     // console.log(">>>check sort: ", sortBy, sortField)
     return (
         <>
 
             <div className='add-new my-3'>
                 <span><b>List users: </b></span>
-                <button className='btn btn-success'
-                    onClick={() => setIsShowModalAddNew(true)}
-                >
-                    <i className="fa-solid fa-circle-plus"></i>&nbsp;
-                    Add new
-                </button>
+                <div>
+                    <label htmlFor='test' className='btn btn-warning'>
+                        <i className="fa-solid fa-file-import"></i>&nbsp;
+                        Import
+                    </label>
+                    <input id='test' type='file' hidden />
+                    <CSVLink
+                        data={data}
+                        filename={"user.csv"}
+                        className="btn btn-primary mx-2"
+                    >
+                        <i className="fa-solid fa-file-arrow-down"></i>&nbsp;
+                        Export
+                    </CSVLink>
+                    <button className='btn btn-success'
+                        onClick={() => setIsShowModalAddNew(true)}
+                    >
+                        <i className="fa-solid fa-circle-plus"></i>&nbsp;
+                        Add new
+                    </button>
+                </div>
+
             </div>
             <div className='col-4 my-3'>
                 <input className='form-control'

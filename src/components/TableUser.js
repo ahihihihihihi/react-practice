@@ -8,6 +8,8 @@ import ModalEditUser from './ModalEditUser';
 import ModalDeleteUser from './ModalDeleteUser';
 import _, { debounce } from 'lodash';
 import { CSVLink } from "react-csv";
+import { toast } from 'react-toastify';
+import Papa from 'papaparse'
 
 
 const TableUser = (props) => {
@@ -132,6 +134,54 @@ const TableUser = (props) => {
         }
     }
 
+    const handleImportCSV = (event) => {
+        if (event.target && event.target.files && event.target.files[0]) {
+            let file = event.target.files[0]
+            if (file.type !== 'text/csv') {
+                toast.error("only accept csv files...")
+                return
+            }
+
+            // Parse local CSV file
+            Papa.parse(file, {
+                header: true,
+                complete: function (results) {
+                    // console.log("ListUsers:", listUsers);
+                    let rawCSV = results.data
+                    // console.log("rawCSV:", rawCSV);
+                    if (rawCSV.length > 0) {
+                        // console.log("rawCSV[0]:", rawCSV[0], rawCSV[0].hasOwnProperty('email'), Object.keys(rawCSV[0]).length);
+                        if (rawCSV[0] && Object.keys(rawCSV[0]).length === 3) {
+                            if (!rawCSV[0].hasOwnProperty('email')
+                                || !rawCSV[0].hasOwnProperty('first_name')
+                                || !rawCSV[0].hasOwnProperty('last_name')
+                            ) {
+                                toast.error("wrong format header CSV file!")
+                                return
+                            } else {
+                                setListUsers(rawCSV)
+                                toast.success('Import successfully!')
+                                return
+                            }
+                        } else {
+                            toast.error("wrong format header CSV file!")
+                            return
+                        }
+                    } else {
+                        toast.error("something's not right...")
+                        return
+                    }
+
+                }
+            });
+
+        } else {
+            toast.error("something's not right...")
+            return
+        }
+
+    }
+
     const headers = [
         { label: "ID", key: "id" },
         { label: "First Name", key: "first_name" },
@@ -150,7 +200,12 @@ const TableUser = (props) => {
                         <i className="fa-solid fa-file-import"></i>&nbsp;
                         Import
                     </label>
-                    <input id='test' type='file' hidden />
+                    <input
+                        id='test'
+                        type='file'
+                        hidden
+                        onChange={(event) => handleImportCSV(event)}
+                    />
                     <CSVLink
                         // data={listUsers}
                         data={dataExport}

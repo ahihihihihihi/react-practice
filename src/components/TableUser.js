@@ -112,11 +112,12 @@ const TableUser = (props) => {
         }
     }, 500)
 
-    const data = [
-        { firstname: "Ahmed", lastname: "Tomi", email: "ah@smthing.co.com" },
-        { firstname: "Raed", lastname: "Labes", email: "rl@smthing.co.com" },
-        { firstname: "Yezzi", lastname: "Min l3b", email: "ymin@cocococo.com" }
-    ];
+    const headers = [
+        { label: "ID", key: "id" },
+        { label: "First Name", key: "first_name" },
+        { label: "Last Name", key: "last_name" },
+        { label: "Email", key: "email" },
+    ]
 
     // console.log(">>>check sort: ", sortBy, sortField)
     return (
@@ -131,7 +132,8 @@ const TableUser = (props) => {
                     </label>
                     <input id='test' type='file' hidden />
                     <CSVLink
-                        data={data}
+                        data={listUsers}
+                        headers={headers}
                         filename={"user.csv"}
                         className="btn btn-primary mx-2"
                     >

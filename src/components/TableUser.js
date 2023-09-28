@@ -30,6 +30,8 @@ const TableUser = (props) => {
     const [sortBy, setSortBy] = useState('id')
     const [sortField, setSortField] = useState('asc')
 
+    const [dataExport, setDataExport] = useState([])
+
     const handleClose = () => {
         setIsShowModalAddNew(false)
         setIsShowModalEdit(false)
@@ -112,6 +114,24 @@ const TableUser = (props) => {
         }
     }, 500)
 
+    const getUserExport = (event, done) => {
+        let result = []
+        if (listUsers && listUsers.length > 0) {
+            result.push(["Id", "Email", "First name", "Last name"])
+            listUsers.map((item, index) => {
+                let arr = []
+                arr[0] = item.id
+                arr[1] = item.email
+                arr[2] = item.first_name
+                arr[3] = item.last_name
+                result.push(arr)
+            })
+
+            setDataExport(result)
+            done()
+        }
+    }
+
     const headers = [
         { label: "ID", key: "id" },
         { label: "First Name", key: "first_name" },
@@ -132,8 +152,11 @@ const TableUser = (props) => {
                     </label>
                     <input id='test' type='file' hidden />
                     <CSVLink
-                        data={listUsers}
-                        headers={headers}
+                        // data={listUsers}
+                        data={dataExport}
+                        // headers={headers}
+                        asyncOnClick={true}
+                        onClick={getUserExport}
                         filename={"user.csv"}
                         className="btn btn-primary mx-2"
                     >

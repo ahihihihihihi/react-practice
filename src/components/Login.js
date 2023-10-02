@@ -1,24 +1,28 @@
 import { useState, useEffect } from "react"
 import { toast } from 'react-toastify';
 import { loginApi } from "../services/UserService";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useContext } from 'react';
+import { UserContext } from '../context/UserContext';
 
 
 const Login = () => {
 
     const navigate = useNavigate();
 
-    const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")
+    const { loginContext } = useContext(UserContext);
+
+    const [email, setEmail] = useState("eve.holt@reqres.in")
+    const [password, setPassword] = useState("123")
     const [isShowPassword, setIsShowPassword] = useState(false)
     const [loadingAPI, setLoadingAPI] = useState(false)
 
-    useEffect(() => {
-        let token = localStorage.getItem("token")
-        if (token) {
-            navigate("/")
-        }
-    }, [])
+    // useEffect(() => {
+    //     let token = localStorage.getItem("token")
+    //     if (token) {
+    //         navigate("/")
+    //     }
+    // }, [])
 
     const handleLogin = async () => {
         if (!email || !password) {
@@ -28,7 +32,7 @@ const Login = () => {
         setLoadingAPI(true)
         let res = await loginApi(email, password)
         if (res && res.token) {
-            localStorage.setItem("token", res.token)
+            loginContext(email, res.token)
             navigate("/")
         } else {
             if (res && res.status === 400) {
@@ -66,7 +70,7 @@ const Login = () => {
                     {loadingAPI && <i className="fas fa-sync fa-spin"></i>} &nbsp;
                     login</button>
                 <div className="back">
-                    <i className="fa-solid fa-angles-left"></i> Go back
+                    <Link to="/"><i className="fa-solid fa-angles-left"></i> Go back</Link>
                 </div>
             </div>
         </>

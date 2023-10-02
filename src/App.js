@@ -7,8 +7,20 @@ import Container from 'react-bootstrap/Container';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Login from './components/Login';
+import { useContext } from 'react';
+import { UserContext } from './context/UserContext';
+import { useEffect } from 'react';
 
 function App() {
+
+  const { user, loginContext } = useContext(UserContext);
+
+  useEffect(() => {
+    if (localStorage.getItem('token') && localStorage.getItem('email')) {
+      loginContext(localStorage.getItem('email'), localStorage.getItem('token'),)
+    }
+  }, [])
+  console.log(">>>check user: ", user)
 
   return (
     <>

@@ -235,7 +235,7 @@ const TableUser = (props) => {
                 />
             </div>
             <div className='table-responsive'>
-                <Table striped hover bordered table={true}>
+                <Table striped hover bordered table="true">
                     <thead>
                         <tr>
                             <th>

@@ -6,6 +6,7 @@ import TableUser from './components/TableUser';
 import Container from 'react-bootstrap/Container';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Login from './components/Login';
 
 function App() {
 
@@ -18,6 +19,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/users" element={<TableUser />} />
+            <Route path="/login" element={<Login />} />
           </Routes>
 
           {/* <TableUser /> */}

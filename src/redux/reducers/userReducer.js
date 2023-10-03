@@ -43,7 +43,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 account: {
-                    auth: false
+                    auth: null
                 },
                 isLoading: false,
                 isError: true

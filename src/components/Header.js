@@ -28,7 +28,7 @@ const Header = (props) => {
             toast.success("Logout succesfully!")
             navigate("/")
         }
-    }, [user.token])
+    }, [user])
 
     return (
         <>

@@ -27,6 +27,7 @@ export const handleLoginRedux = (email, password) => {
                 }
             })
         } else {
+            toast.error("Email or Password is required!")
             dispatch({
                 type: FETCH_USER_FAIL
             })

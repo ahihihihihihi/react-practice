@@ -7,6 +7,9 @@ import { useSelector } from 'react-redux';
 
 
 const Login = () => {
+    //demo error
+    // var a = null
+    // console.log(">>>check user: ", a.abc)
 
     const navigate = useNavigate();
     const dispatch = useDispatch()

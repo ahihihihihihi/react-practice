@@ -9,6 +9,7 @@ import AppRoutes from './components/routes/AppRoutes';
 import { useSelector } from 'react-redux';
 import { handleRefresh } from './redux/actions/userAction';
 import { useDispatch } from "react-redux";
+import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary';
 
 function App() {
 
@@ -30,7 +31,9 @@ function App() {
       <div className='app-container'>
         <Header />
         <Container>
-          <AppRoutes />
+          <ErrorBoundary>
+            <AppRoutes />
+          </ErrorBoundary>
         </Container>
       </div>
 

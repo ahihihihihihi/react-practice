@@ -7,30 +7,29 @@ import logoApp from '../assets/images/logo192.png'
 import { NavLink } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify';
-import { useContext, useEffect, useState } from 'react';
-import { UserContext } from '../context/UserContext';
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { handleLogoutRedux } from '../redux/actions/userAction';
+import { useDispatch } from "react-redux";
 
 const Header = (props) => {
-    // let location = useLocation();
+
     const navigate = useNavigate();
-    // console.log(">>> check localstorage: ", localStorage)
 
-    const { logout, user } = useContext(UserContext);
-
-    // const [hideHeader, setHideHeader] = useState(false)
-
-    // useEffect(() => {
-    //     if (window.location.pathname === "/login") {
-    //         setHideHeader(true)
-    //     }
-    // }, [])
+    const dispatch = useDispatch()
+    const user = useSelector(state => state.user.account)
 
     const handleLogout = () => {
-        // localStorage.removeItem("token")
-        logout()
-        toast.success("Logout succesfully!")
-        navigate("/")
+        dispatch(handleLogoutRedux())
     }
+
+    useEffect(() => {
+        if (user && user.auth === false) {
+            toast.success("Logout succesfully!")
+            navigate("/")
+        }
+    }, [user.token])
+
     return (
         <>
             <Navbar expand="lg" className="bg-body-tertiary">
@@ -56,7 +55,7 @@ const Header = (props) => {
 
                             </>
                         }
-                        {user && user.auth === false &&
+                        {user && (user.auth === false || user.auth === null) &&
                             <>
                                 <Nav className="me-auto">
                                     <NavLink to="/"><span></span></NavLink>
@@ -68,7 +67,7 @@ const Header = (props) => {
                             {user && user.auth === true && user.email &&
                                 <span className='nav-link'>Welcome <b>{user.email}</b></span>}
                             <NavDropdown title="Settings" id="basic-nav-dropdown">
-                                {user && user.auth === false && <NavLink to="/login" className="dropdown-item">Login</NavLink>}
+                                {user && (user.auth === false || user.auth === null) && <NavLink to="/login" className="dropdown-item">Login</NavLink>}
                                 {user && user.auth === true && <NavDropdown.Item onClick={() => handleLogout()}>Logout</NavDropdown.Item>}
                             </NavDropdown>
                         </Nav>

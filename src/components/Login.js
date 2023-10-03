@@ -1,46 +1,35 @@
 import { useState, useEffect } from "react"
 import { toast } from 'react-toastify';
-import { loginApi } from "../services/UserService";
 import { Link, useNavigate } from "react-router-dom";
-import { useContext } from 'react';
-import { UserContext } from '../context/UserContext';
+import { handleLoginRedux } from "../redux/actions/userAction";
+import { useDispatch } from "react-redux";
+import { useSelector } from 'react-redux';
 
 
 const Login = () => {
 
     const navigate = useNavigate();
-
-    const { loginContext } = useContext(UserContext);
+    const dispatch = useDispatch()
 
     const [email, setEmail] = useState("eve.holt@reqres.in")
     const [password, setPassword] = useState("123")
     const [isShowPassword, setIsShowPassword] = useState(false)
-    const [loadingAPI, setLoadingAPI] = useState(false)
+    const isLoading = useSelector(state => state.user.isLoading)
+    const account = useSelector(state => state.user.account)
 
-    // useEffect(() => {
-    //     let token = localStorage.getItem("token")
-    //     if (token) {
-    //         navigate("/")
-    //     }
-    // }, [])
+    useEffect(() => {
+        if (account && account.auth === true) {
+            navigate("/")
+        }
+    }, [account])
 
     const handleLogin = async () => {
         if (!email || !password) {
             toast.error("Email or Password is required!")
             return
         }
-        setLoadingAPI(true)
-        let res = await loginApi(email.trim(), password)
-        if (res && res.token) {
-            loginContext(email, res.token)
-            navigate("/")
-        } else {
-            if (res && res.status === 400) {
-                toast.error(res.data.error)
-            }
-        }
-        setLoadingAPI(false)
-        // console.log(">>> check res: ", res)
+
+        dispatch(handleLoginRedux(email, password))
 
     }
 
@@ -76,7 +65,7 @@ const Login = () => {
                     onClick={() => handleLogin()}
 
                 >
-                    {loadingAPI && <i className="fas fa-sync fa-spin"></i>} &nbsp;
+                    {isLoading && <i className="fas fa-sync fa-spin"></i>} &nbsp;
                     login</button>
                 <div className="back">
                     <Link to="/"><i className="fa-solid fa-angles-left"></i> Go back</Link>

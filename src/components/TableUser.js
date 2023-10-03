@@ -228,7 +228,7 @@ const TableUser = (props) => {
                 </div>
 
             </div>
-            <div className='col-6 my-3'>
+            <div className='col-12 col-lg-6 my-3'>
                 <input className='form-control'
                     placeholder='search user by email...'
                     onChange={(event) => handleSearch(event)}

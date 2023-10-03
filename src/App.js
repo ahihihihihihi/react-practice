@@ -8,8 +8,12 @@ import { useContext } from 'react';
 import { UserContext } from './context/UserContext';
 import { useEffect } from 'react';
 import AppRoutes from './components/routes/AppRoutes';
+import { useSelector } from 'react-redux';
 
 function App() {
+
+  const dataUserRedux = useSelector(state => state.user.account)
+  console.log(">>> check user redux: ", dataUserRedux)
 
   const { user, loginContext } = useContext(UserContext);
 

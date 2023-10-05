@@ -8,6 +8,7 @@ import { BrowserRouter } from "react-router-dom";
 import store from './redux/store';
 import { Provider } from 'react-redux';
 import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary';
+import 'nprogress/nprogress.css'
 
 ReactDOM.render(
   <Provider store={store}>

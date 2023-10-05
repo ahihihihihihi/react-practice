@@ -16,8 +16,8 @@ export const handleLoginRedux = (email, password) => {
         let res = await loginApi(email.trim(), password)
         if (res && res.token) {
 
-            localStorage.setItem('email', email.trim())
-            localStorage.setItem('token', res.token)
+            // localStorage.setItem('email', email.trim())
+            // localStorage.setItem('token', res.token)
 
             dispatch({
                 type: FETCH_USER_SUCESS,

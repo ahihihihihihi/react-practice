@@ -18,11 +18,11 @@ function App() {
 
   const dispatch = useDispatch()
 
-  useEffect(() => {
-    if (localStorage.getItem('token') && localStorage.getItem('email')) {
-      dispatch(handleRefresh())
-    }
-  }, [])
+  // useEffect(() => {
+  //   if (localStorage.getItem('token') && localStorage.getItem('email')) {
+  //     dispatch(handleRefresh())
+  //   }
+  // }, [])
   // console.log(">>>check user: ", user)
 
   return (

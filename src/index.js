@@ -5,20 +5,23 @@ import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '@fortawesome/fontawesome-free/css/all.min.css'
 import { BrowserRouter } from "react-router-dom";
-import store from './redux/store';
+import { store, persistor } from './redux/store';
 import { Provider } from 'react-redux';
 import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary';
 import 'nprogress/nprogress.css'
+import { PersistGate } from 'redux-persist/integration/react'
 
 ReactDOM.render(
   <Provider store={store}>
-    <React.StrictMode>
-      <BrowserRouter>
-        <ErrorBoundary>
-          <App />
-        </ErrorBoundary>
-      </BrowserRouter>
-    </React.StrictMode>
+    <PersistGate loading={null} persistor={persistor}>
+      <React.StrictMode>
+        <BrowserRouter>
+          <ErrorBoundary>
+            <App />
+          </ErrorBoundary>
+        </BrowserRouter>
+      </React.StrictMode>
+    </PersistGate>
   </Provider>
   ,
   document.getElementById('root')

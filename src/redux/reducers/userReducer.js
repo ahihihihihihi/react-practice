@@ -49,8 +49,8 @@ const userReducer = (state = INITIAL_STATE, action) => {
                 isError: true
             };
         case USER_LOGOUT:
-            localStorage.removeItem('email')
-            localStorage.removeItem('token')
+            // localStorage.removeItem('email')
+            // localStorage.removeItem('token')
             console.log(">>> CHECK ACTION USER_LOGOUT: ", action)
             return {
                 ...state,
